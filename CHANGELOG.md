@@ -14,3 +14,8 @@
 
 -Put the appbar into its own stateless widget
 -started design on home page
+
+# [Curve Design - 0.0.4]
+
+-added a curve to the home screen at the bottom
+-can now start designing from that
