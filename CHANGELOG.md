@@ -9,3 +9,8 @@
 
 -Added the bills tracking page
 -no proper functionality just design
+
+# [AppBar Cleanup - 0.0.3]
+
+-Put the appbar into its own stateless widget
+-started design on home page

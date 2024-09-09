@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_tracking_app/scaffold_appbar.dart';
 import 'scaffold_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,9 +12,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home app"),
+      appBar: PreferredSize(
+        preferredSize: Size(screenWidth, screenHeight * 0.065), 
+        child: const AppBarForMainScaffold()
       ),
       drawer: const DrawerForMainScaffold(),
       body: const Center(

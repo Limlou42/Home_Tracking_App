@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'scaffold_drawer.dart';
+import 'scaffold_appbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class BillsTrackingPage extends StatefulWidget {
@@ -10,6 +11,8 @@ class BillsTrackingPage extends StatefulWidget {
 }
 
 class _BillsTrackingPageState extends State<BillsTrackingPage> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -18,28 +21,7 @@ class _BillsTrackingPageState extends State<BillsTrackingPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(screenWidth, screenHeight * 0.065),
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 143, 201, 78),
-            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.4),
-                spreadRadius: 1.5,
-                blurRadius: 2,
-                offset: const Offset(0, 2)
-              )
-            ]
-          ),
-          child: AppBar(
-            title: const Text("Bills Tracking", textScaler: TextScaler.linear(1.2), style: TextStyle(fontWeight: FontWeight.bold),),
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            actions: [
-              IconButton(onPressed: (){}, icon: const Icon(Icons.add, size: 40,),)
-            ],
-          ),
-        ),
+        child: const AppBarForMainScaffold()
       ),
       drawer: const DrawerForMainScaffold(),
       body: Padding(
@@ -81,7 +63,7 @@ class _BillsTrackingPageState extends State<BillsTrackingPage> {
                 ),
               )
             ),
-            SizedBox(height: screenHeight * 0.055,),
+            SizedBox(height: screenHeight * 0.038,),
             DefaultTabController(
               length: 3,
               initialIndex: 1,
@@ -164,7 +146,7 @@ class _BillsTrackingPageState extends State<BillsTrackingPage> {
                                 children: [
                                   SizedBox(height: screenWidth * 0.015,),
                                   const Text("Water Bill", textScaler: TextScaler.linear(1.35),),
-                                  const Text("Monthly", textScaler: TextScaler.linear(0.9),),
+                                  //const Text("Monthly", textScaler: TextScaler.linear(0.9),),
                                 ],
                               ),
                               Expanded(child: SizedBox(child: SizedBox(child: Text("£${bills[index]}", textScaler: const TextScaler.linear(1.35), textAlign: TextAlign.right,)))),
