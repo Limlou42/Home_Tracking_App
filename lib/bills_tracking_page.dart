@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'scaffold_drawer.dart';
-import 'scaffold_appbar.dart';
+import 'ScaffoldItems/scaffold_drawer.dart';
+import 'ScaffoldItems/scaffold_appbar.dart';
+import 'wave_design.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class BillsTrackingPage extends StatefulWidget {
@@ -10,6 +11,8 @@ class BillsTrackingPage extends StatefulWidget {
   State<BillsTrackingPage> createState() => _BillsTrackingPageState();
 }
 
+
+//TODO: refactor and split all the code
 class _BillsTrackingPageState extends State<BillsTrackingPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -21,148 +24,156 @@ class _BillsTrackingPageState extends State<BillsTrackingPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(screenWidth, screenHeight * 0.065),
-        child: const AppBarForMainScaffold()
+        child: const AppBarForMainScaffold(pageName: "Bills Tracking",)
       ),
       drawer: const DrawerForMainScaffold(),
-      body: Padding(
-        padding: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, top: screenHeight * 0.025, bottom: screenHeight * 0.025),
-        child: Column(
-          children: [
-            Container(
-              height: screenHeight * 0.325,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25), 
-                color: Colors.white, 
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 4,
-                    offset: const Offset(0, 2)
-                  )
-                ]
-              ),
-              child: Center(
-                child: Wrap(
-                  children: [
-                    Column(
+      body: Stack(
+        children: <Widget> [
+          //Curve design for home screen
+          BackgroundWave(waveHeight: 300, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.2)),
+          BackgroundWave(waveHeight: 225, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.4)),
+          BackgroundWave(waveHeight: 150, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.6)),
+          Padding(
+            padding: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, top: screenHeight * 0.025, bottom: screenHeight * 0.025),
+            child: Column(
+              children: [
+                Container(
+                  height: screenHeight * 0.325,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25), 
+                    color: Colors.white, 
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset: const Offset(0, 2)
+                      )
+                    ]
+                  ),
+                  child: const Center(
+                    child: Wrap(
                       children: [
-                        const Text("Payment Circle", textScaler: TextScaler.linear(1.5), style: TextStyle(fontWeight: FontWeight.bold,),),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: createCircularWidgets(),
+                            Text("Payment Circle", textScaler: TextScaler.linear(1.5), style: TextStyle(fontWeight: FontWeight.bold,),),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(15.0),
+                                  //child: createCircularWidgets(),
+                                ),
+                              ]
                             ),
-                          ]
-                        ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ),
-              )
-            ),
-            SizedBox(height: screenHeight * 0.038,),
-            DefaultTabController(
-              length: 3,
-              initialIndex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      offset: const Offset(0, 2)
-                    )
-                  ]
-                ),
-                child: const TabBar(
-                  textScaler: TextScaler.linear(1.2),
-                  dividerHeight: 0,
-                  indicatorColor: Color.fromARGB(255, 86, 134, 32),
-                  labelColor: Color.fromARGB(255, 86, 134, 32),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicatorWeight: 5,
-                  tabs: [
-                    Tab(text: "Week",),
-                    Tab(text: "Month",),
-                    Tab(text: "Year",),
-                  ]
-                ),
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.0175,),
-            Container(
-              height: screenHeight * 0.383,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25), 
-                color: Colors.white, 
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 4,
-                    offset: const Offset(0, 2)
+                    ),
                   )
-                ]
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: ListView.builder(
-                  itemCount: bills.length,
-                  itemBuilder: (context, index){
-                    return Padding(
-                      padding: EdgeInsets.all(screenHeight * 0.01),
-                      child: Container(
-                        height: screenHeight * 0.0925,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25), 
-                          color: Colors.white, 
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.green.withOpacity(0.4),
-                              spreadRadius: 2,
-                              blurRadius: 1,
-                              offset: const Offset(0, 1)
-                            )
-                          ]
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 15, top: 15, left: 15),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(color: Colors.lightBlue, borderRadius: BorderRadius.circular(10), ),
-                                padding: const EdgeInsets.all(5),
-                                child: const Icon(Icons.home_filled, size: 40, color: Colors.white,)
-                              ),
-                              SizedBox(width: screenWidth * 0.03,),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+                SizedBox(height: screenHeight * 0.038,),
+                DefaultTabController(
+                  length: 3,
+                  initialIndex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 4,
+                          offset: const Offset(0, 2)
+                        )
+                      ]
+                    ),
+                    child: const TabBar(
+                      textScaler: TextScaler.linear(1.2),
+                      dividerHeight: 0,
+                      indicatorColor: Color.fromARGB(255, 86, 134, 32),
+                      labelColor: Color.fromARGB(255, 86, 134, 32),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicatorWeight: 5,
+                      tabs: [
+                        Tab(text: "Week",),
+                        Tab(text: "Month",),
+                        Tab(text: "Year",),
+                      ]
+                    ),
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.0175,),
+                Container(
+                  height: screenHeight * 0.383,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25), 
+                    color: Colors.white, 
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset: const Offset(0, 2)
+                      )
+                    ]
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: ListView.builder(
+                      itemCount: bills.length,
+                      itemBuilder: (context, index){
+                        return Padding(
+                          padding: EdgeInsets.all(screenHeight * 0.01),
+                          child: Container(
+                            height: screenHeight * 0.0925,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25), 
+                              color: Colors.white, 
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.green.withOpacity(0.4),
+                                  spreadRadius: 2,
+                                  blurRadius: 1,
+                                  offset: const Offset(0, 1)
+                                )
+                              ]
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 15, top: 15, left: 15),
+                              child: Row(
                                 children: [
-                                  SizedBox(height: screenWidth * 0.015,),
-                                  const Text("Water Bill", textScaler: TextScaler.linear(1.35),),
-                                  //const Text("Monthly", textScaler: TextScaler.linear(0.9),),
+                                  Container(
+                                    decoration: BoxDecoration(color: Colors.lightBlue, borderRadius: BorderRadius.circular(10), ),
+                                    padding: const EdgeInsets.all(5),
+                                    child: const Icon(Icons.home_filled, size: 40, color: Colors.white,)
+                                  ),
+                                  SizedBox(width: screenWidth * 0.03,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: screenWidth * 0.015,),
+                                      const Text("Water Bill", textScaler: TextScaler.linear(1.35),),
+                                      //const Text("Monthly", textScaler: TextScaler.linear(0.9),),
+                                    ],
+                                  ),
+                                  Expanded(child: SizedBox(child: SizedBox(child: Text("£${bills[index]}", textScaler: const TextScaler.linear(1.35), textAlign: TextAlign.right,)))),
+                                  SizedBox(width: screenWidth * 0.01,),
+                                  IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_forward_ios_rounded))
                                 ],
                               ),
-                              Expanded(child: SizedBox(child: SizedBox(child: Text("£${bills[index]}", textScaler: const TextScaler.linear(1.35), textAlign: TextAlign.right,)))),
-                              SizedBox(width: screenWidth * 0.01,),
-                              IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_forward_ios_rounded))
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }
+                        );
+                      }
+                    ),
+                  )
                 ),
-              )
+              ],
             ),
-          ],
-        ),
+          ),
+        ]
       ),
     );
   }

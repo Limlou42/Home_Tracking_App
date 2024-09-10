@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:home_tracking_app/scaffold_appbar.dart';
-import 'scaffold_drawer.dart';
+import 'package:home_tracking_app/ScaffoldItems/scaffold_appbar.dart';
+import 'wave_design.dart';
+import 'ScaffoldItems/scaffold_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,22 +17,99 @@ class _HomeScreenState extends State<HomeScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(screenWidth, screenHeight * 0.065), 
-        child: const AppBarForMainScaffold()
+        preferredSize: Size(screenWidth, screenHeight * 0.065),
+        child: const AppBarForMainScaffold(pageName: "Home"),
       ),
       drawer: const DrawerForMainScaffold(),
+      body: Stack(
+        children: <Widget>[
+          // Background Wave design
+          BackgroundWave(waveHeight: 300, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.2)),
+          BackgroundWave(waveHeight: 225, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.4)),
+          BackgroundWave(waveHeight: 150, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.6)),
 
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white, // Background color of the scaffold
-        ),
-        child: Stack(
-          children: <Widget>[
-            BackgroundWave(waveHeight: 300, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.2)),
-            BackgroundWave(waveHeight: 225, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.4)),
-            BackgroundWave(waveHeight: 150, waveColor: const Color.fromARGB(255, 143, 201, 78).withOpacity(0.6)),
-          ],
-        ),
+          // Main content section
+          Padding(
+            padding: EdgeInsets.only(
+              left: screenWidth * 0.05,
+              right: screenWidth * 0.05,
+              top: screenHeight * 0.04,
+              bottom: screenHeight * 0.025,
+            ),
+            child: Column(
+              children: [
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Welcome Back Ashleigh",
+                    textScaler: TextScaler.linear(1.2), // Use textScaleFactor instead of textScaler
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 80,
+                        child: Icon(Icons.person, size: 100),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              "Your Update",
+                              style: TextStyle(decoration: TextDecoration.underline),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.edit, size: 20),
+                            ),
+                          ],
+                        ),
+                        const Text(
+                          "Nothing To Report Today!",
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
+                SizedBox(
+                  height: screenHeight * 0.25,
+                  child: PageView.builder(
+                    itemCount: 5,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: screenWidth * 0.5,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.grey
+                        ),
+                        margin: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Text(index.toString()),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -47,7 +125,7 @@ class MainMenuFloatingButton extends StatelessWidget {
       height: 150,
       child: ElevatedButton(
         child: const Text("Button One"),
-        onPressed: (){},
+        onPressed: () {},
       ),
     );
   }
@@ -61,68 +139,10 @@ class PanelViewContainer extends StatelessWidget {
     return Container(
       height: 170,
       width: 330,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.amber),
-    );
-  }
-}
-
-
-class BackgroundWave extends StatelessWidget {
-  final double waveHeight;
-  final Color waveColor;
-  const BackgroundWave({super.key, required this.waveHeight, required this.waveColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: ClipPath(
-          clipper: WaveClipper(),
-          child: Container(
-            height: waveHeight,
-            color: waveColor, // Third layer color
-          ),
-        ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.amber,
       ),
     );
   }
 }
-
-//TODO: Research this more
-class WaveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-
-    // Start from top-left
-    path.moveTo(0.0, 0.0);
-
-    // First curve (wave starts at the top-left)
-    var firstControlPoint = Offset(size.width / 4, 80);  // Increase the height here for a bigger curve
-    var firstEndPoint = Offset(size.width / 2, 40);
-
-    // Second curve (wave goes up on the right)
-    var secondControlPoint = Offset(size.width * 3 / 4, 0);
-    var secondEndPoint = Offset(size.width, 60);  // Ensure this point is not cut off
-
-    // Draw curves
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
-
-    // Fill the rest of the path downwards
-    path.lineTo(size.width, size.height);  // Go to bottom-right
-    path.lineTo(0.0, size.height);         // Go to bottom-left
-    path.close();                          // Close the path
-    
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
-}
-
-
-

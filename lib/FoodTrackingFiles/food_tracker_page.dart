@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../scaffold_drawer.dart';
+import '../ScaffoldItems/scaffold_drawer.dart';
 import 'stored_foods_page.dart';
 
 class FoodTrackerPage extends StatefulWidget {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppBarForMainScaffold extends StatelessWidget {
-  const AppBarForMainScaffold({super.key});
+  final String pageName;
+  const AppBarForMainScaffold({super.key, required this.pageName});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class AppBarForMainScaffold extends StatelessWidget {
         ]
       ),
       child: AppBar(
-        title: const Text("Bills Tracking", textScaler: TextScaler.linear(1.2), style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(pageName, textScaler: const TextScaler.linear(1.2), style: const TextStyle(fontWeight: FontWeight.bold),),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         leading: Builder(

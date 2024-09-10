@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gallery_picker/gallery_picker.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
-import '../scaffold_drawer.dart';
+import '../ScaffoldItems/scaffold_drawer.dart';
 
 class WorkSchedulePage extends StatefulWidget {
   const WorkSchedulePage({super.key});
